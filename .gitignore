@@ -1,0 +1,7 @@
+__pycache__/
+.venv/
+.streamlit/
+*.pyc
+tmp_upload.wav
+data/*
+!data/.gitkeep

@@ -1,0 +1,53 @@
+音楽ジャンル分類アプリ with Echo State Network
+
+1. プロジェクト概要
+項目内容アプリ名音楽ジャンル分類デモ（ESN）目的Echo State Networkを用いて音楽ファイルのジャンルを自動分類する形式Streamlitウェブアプリ対象ユーザーRCの動作原理を学びたい人・デモとして見せたい人
+
+2. 使用データセット
+項目内容データセット名GTZAN Genre Collectionジャンル数10種類（blues, classical, country, disco, hiphop, jazz, metal, pop, reggae, rock）曲数1000曲（各ジャンル100曲 × 30秒）形式WAV取得元Kaggle（無料）データ分割層化サンプリングで Train:Val:Test = 70:15:15
+
+3. システム構成
+WAVファイル
+  └─ librosa → MFCC特徴量抽出
+       └─ ESN（リザバー層）→ 内部状態取得
+            └─ リッジ回帰（線形分類器）→ ジャンルラベル予測
+
+4. 機能要件
+4-1. 学習画面
+
+GTZANデータのパス指定
+MFCC特徴量の抽出・表示
+ESNの学習実行（Train/Val/Test分割込み）
+Validation accuracyを見ながらハイパーパラメータ調整
+Test accuracyの最終表示
+
+4-2. 予測画面
+
+WAVファイルのアップロード
+ジャンル予測結果の表示（ラベル＋確信度）
+
+4-3. 可視化画面
+
+MFCCの波形グラフ
+リザバー内部状態の時系列グラフ
+混同行列（Confusion Matrix）
+
+
+5. 非機能要件
+項目内容実行環境ローカルPC（CPU only）GPU不要メモリ推奨8GB以上処理時間学習：数分以内を目標
+
+6. 技術スタック
+役割ライブラリUIstreamlit音声特徴量抽出librosaESN本体numpy / scipy（自前実装）分類器scikit-learn（Ridge回帰）可視化matplotlibデータ分割scikit-learn（train_test_split）
+
+7. 調整するハイパーパラメータ
+パラメータ説明探索範囲Nリザバーノード数100〜1000spectral_radiusスペクトル半径0.8〜1.2sparsity結合密度0.1〜0.3ridge_alpha正則化強度1e-4〜1e0
+
+8. ディレクトリ構成（予定）
+project/
+├── app.py              # Streamlitメイン
+├── esn.py              # ESN実装
+├── feature.py          # MFCC特徴量抽出
+├── train.py            # 学習・評価ロジック
+├── data/
+│   └── gtzan/          # GTZANデータ置き場
+└── requirements.txt
