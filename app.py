@@ -36,7 +36,9 @@ tab1, tab2, tab3 = st.tabs(["📊 学習・評価", "🎵 ジャンル予測", "
 # -------- Tab1: 学習・評価 --------
 with tab1:
     st.header("学習・評価")
-
+    st.write("データは配布していないので学習をする際はローカルにGTZANデータセットを配置してください。")
+    st.link_button("GTZANデータセットをダウンロード", "https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification")
+    
     if st.button("▶ 学習スタート"):
         with st.spinner("GTZANデータを読み込み中..."):
             X, y, genres = load_gtzan(data_dir)
